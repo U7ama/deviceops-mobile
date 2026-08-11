@@ -1,0 +1,13 @@
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useRouter } from 'expo-router';
+import { apiFetch } from '../../src/api';
+
+const DEVICES = [{ id: '30000000-0000-4000-8000-000000000001', roomId: '20000000-0000-4000-8000-000000000001', name: 'Main Wall Display · ProView-85', room: 'Conference Room 101' }, { id: '30000000-0000-4000-8000-000000000002', roomId: '20000000-0000-4000-8000-000000000002', name: 'DSP Processor · DSP-128', room: 'Boardroom 202' }];
+
+export default function DevicesScreen() {
+  const router = useRouter(); const [status, setStatus] = useState<Record<string, any>>({}); const [loading, setLoading] = useState(true);
+  useEffect(() => { Promise.all(DEVICES.map(async (device) => { const response = await apiFetch(`/api/v1/devices/${device.id}/status?roomId=${device.roomId}`); return [device.id, response.ok ? (await response.json()).status : null] as const; })).then((items) => setStatus(Object.fromEntries(items))).catch(() => undefined).finally(() => setLoading(false)); }, []);
+  return <View style={styles.container}><Text style={styles.header}>Authorized room and device context</Text>{loading ? <ActivityIndicator color="#38bdf8" /> : <FlatList data={DEVICES} keyExtractor={(item) => item.id} renderItem={({ item }) => { const current = status[item.id]; const online = current?.online === true; return <TouchableOpacity style={styles.card} onPress={() => router.push(`/(tabs)/run?deviceId=${item.id}&roomId=${item.roomId}`)}><View style={styles.row}><Text style={styles.name}>{item.name}</Text><Text style={[styles.badge, { backgroundColor: online ? '#166534' : '#991b1b' }]}>{online ? 'ONLINE' : 'OFFLINE'}</Text></View><Text style={styles.room}>{item.room}</Text><Text style={styles.detail}>Power: {current?.powerState ?? 'unavailable'} · observed: {current?.observedAt ? new Date(current.observedAt).toLocaleTimeString() : '—'}</Text></TouchableOpacity>; }} />}</View>;
+}
+const styles = StyleSheet.create({ container: { flex: 1, backgroundColor: '#090d16', padding: 16 }, header: { fontSize: 18, fontWeight: '700', color: '#f8fafc', marginBottom: 16 }, card: { backgroundColor: '#1e293b', padding: 16, borderRadius: 10, marginBottom: 12, borderWidth: 1, borderColor: '#334155' }, row: { flexDirection: 'row', justifyContent: 'space-between', gap: 8 }, name: { color: '#f8fafc', fontSize: 16, fontWeight: '700', flex: 1 }, badge: { color: '#fff', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 5, fontSize: 11, fontWeight: '700' }, room: { color: '#94a3b8', marginTop: 5 }, detail: { color: '#cbd5e1', fontSize: 12, marginTop: 10 } });

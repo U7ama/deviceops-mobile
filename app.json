@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "name": "DeviceOps Technician",
+    "slug": "deviceops-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "scheme": "deviceops",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#090d16"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#090d16"
+      },
+      "package": "com.deviceops.technician"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-camera",
+      "expo-av"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "synthetic-deviceops-mobile-id"
+      }
+    }
+  }
+}
