@@ -1,11 +1,200 @@
-import React, { useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { apiFetch } from '../../src/api';
 
+type DeviceOption = {
+  id: string;
+  roomId: string;
+  name: string;
+  model: string;
+  room: { id: string; name: string };
+};
+
 export default function NewRunScreen() {
-  const router = useRouter(); const params = useLocalSearchParams<{ deviceId?: string; roomId?: string }>(); const [question, setQuestion] = useState('The wall display is offline after a power interruption. What should I check?'); const [error, setError] = useState(''); const [busy, setBusy] = useState(false);
-  async function submit() { setBusy(true); setError(''); try { const response = await apiFetch('/api/v1/runs', { method: 'POST', headers: { 'idempotency-key': `mobile-${Date.now()}` }, body: JSON.stringify({ roomId: params.roomId ?? '20000000-0000-4000-8000-000000000001', deviceId: params.deviceId ?? '30000000-0000-4000-8000-000000000001', question, mediaIds: [] }) }); const body = await response.json(); if (!response.ok) throw new Error(body.detail ?? 'Run could not be queued'); router.push(`/runs/${body.runId}`); } catch (value) { setError(value instanceof Error ? value.message : 'Run failed'); } finally { setBusy(false); } }
-  return <View style={styles.container}><Text style={styles.title}>Ask the copilot</Text><Text style={styles.context}>Room and device IDs are carried by navigation state; the server rebinds them to the session tenant.</Text><TextInput style={styles.textArea} multiline value={question} onChangeText={setQuestion} placeholder="Describe the symptom" placeholderTextColor="#64748b" /><Text style={styles.note}>Image and voice adapters are opt-in; raw media is never cached offline.</Text>{error ? <Text style={styles.error}>{error}</Text> : null}<TouchableOpacity style={styles.button} onPress={submit} disabled={busy}>{busy ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Queue diagnosis</Text>}</TouchableOpacity></View>;
+  const router = useRouter();
+  const params = useLocalSearchParams<{ deviceId?: string; roomId?: string }>();
+  const [devices, setDevices] = useState<DeviceOption[]>([]);
+  const [selectedDeviceId, setSelectedDeviceId] = useState(params.deviceId ?? '');
+  const [selectedRoomId, setSelectedRoomId] = useState(params.roomId ?? '');
+  const [question, setQuestion] = useState(
+    'The wall display is offline after a power interruption. What should I check?'
+  );
+  const [error, setError] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [loadingDevices, setLoadingDevices] = useState(false);
+
+  useEffect(() => {
+    if (params.deviceId) setSelectedDeviceId(params.deviceId);
+    if (params.roomId) setSelectedRoomId(params.roomId);
+  }, [params.deviceId, params.roomId]);
+
+  useEffect(() => {
+    setLoadingDevices(true);
+    apiFetch('/api/v1/devices')
+      .then(async (response) => {
+        if (!response.ok) return;
+        const body = (await response.json()) as { devices: DeviceOption[] };
+        setDevices(body.devices);
+        if (!selectedDeviceId && body.devices.length > 0) {
+          const first = body.devices[0];
+          if (first) {
+            setSelectedDeviceId(first.id);
+            setSelectedRoomId(first.roomId);
+          }
+        }
+      })
+      .catch(() => undefined)
+      .finally(() => setLoadingDevices(false));
+  }, [selectedDeviceId]);
+
+  function handleDeviceSelect(device: DeviceOption) {
+    setSelectedDeviceId(device.id);
+    setSelectedRoomId(device.roomId);
+  }
+
+  async function submit() {
+    if (!selectedRoomId || !selectedDeviceId) {
+      setError('Select a device before starting a diagnosis.');
+      return;
+    }
+    if (!question.trim()) {
+      setError('Please provide a symptom description or question.');
+      return;
+    }
+    setBusy(true);
+    setError('');
+    try {
+      const response = await apiFetch('/api/v1/runs', {
+        method: 'POST',
+        headers: { 'idempotency-key': `mobile-${Date.now()}` },
+        body: JSON.stringify({
+          roomId: selectedRoomId,
+          deviceId: selectedDeviceId,
+          question,
+          mediaIds: []
+        })
+      });
+      const body = await response.json();
+      if (!response.ok) throw new Error(body.detail ?? 'Run could not be queued');
+      router.push(`/runs/${body.runId}`);
+    } catch (value) {
+      setError(value instanceof Error ? value.message : 'Run failed');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  const selectedDevice = devices.find((d) => d.id === selectedDeviceId);
+
+  return (
+    <ScrollView style={styles.container}>
+      <Text style={styles.title}>Ask the copilot</Text>
+      <Text style={styles.context}>
+        {selectedDevice
+          ? `Target: ${selectedDevice.name} (${selectedDevice.model}) in ${selectedDevice.room.name}`
+          : 'Select target device context for grounded diagnosis:'}
+      </Text>
+
+      {loadingDevices ? (
+        <ActivityIndicator color="#38bdf8" style={{ marginVertical: 12 }} />
+      ) : devices.length > 0 ? (
+        <View style={styles.deviceChips}>
+          {devices.map((d) => {
+            const active = d.id === selectedDeviceId;
+            return (
+              <TouchableOpacity
+                key={d.id}
+                style={[styles.chip, active && styles.chipActive]}
+                onPress={() => handleDeviceSelect(d)}
+              >
+                <Text style={[styles.chipText, active && styles.chipTextActive]}>
+                  {d.name} · {d.room.name}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      ) : null}
+
+      <Text style={styles.label}>Observed symptom or question</Text>
+      <TextInput
+        style={styles.textArea}
+        multiline
+        value={question}
+        onChangeText={setQuestion}
+        placeholder="Describe the symptom or issue"
+        placeholderTextColor="#64748b"
+      />
+
+      <Text style={styles.note}>
+        Diagnostics use server-retrieved manual evidence and tenant-scoped policies.
+      </Text>
+
+      {error ? <Text style={styles.error}>{error}</Text> : null}
+
+      <TouchableOpacity
+        style={[styles.button, (!selectedRoomId || !selectedDeviceId) && styles.disabledButton]}
+        onPress={submit}
+        disabled={busy || !selectedRoomId || !selectedDeviceId}
+      >
+        {busy ? (
+          <ActivityIndicator color="#fff" />
+        ) : (
+          <Text style={styles.buttonText}>Queue diagnosis</Text>
+        )}
+      </TouchableOpacity>
+    </ScrollView>
+  );
 }
-const styles = StyleSheet.create({ container: { flex: 1, backgroundColor: '#090d16', padding: 16 }, title: { color: '#f8fafc', fontSize: 24, fontWeight: '700' }, context: { color: '#94a3b8', marginVertical: 14 }, textArea: { minHeight: 130, backgroundColor: '#1e293b', color: '#f8fafc', borderRadius: 8, padding: 14, textAlignVertical: 'top' }, note: { color: '#64748b', fontSize: 12, marginVertical: 14 }, button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' }, buttonText: { color: '#fff', fontWeight: '700' }, error: { color: '#fb7185', marginBottom: 12 } });
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#090d16', padding: 16 },
+  title: { color: '#f8fafc', fontSize: 24, fontWeight: '700' },
+  context: { color: '#94a3b8', marginVertical: 10, fontSize: 13 },
+  deviceChips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 14 },
+  chip: {
+    backgroundColor: '#1e293b',
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#334155'
+  },
+  chipActive: {
+    backgroundColor: '#0369a1',
+    borderColor: '#38bdf8'
+  },
+  chipText: { color: '#94a3b8', fontSize: 12 },
+  chipTextActive: { color: '#f8fafc', fontWeight: '700' },
+  label: { color: '#cbd5e1', fontSize: 13, fontWeight: '600', marginBottom: 6, marginTop: 4 },
+  textArea: {
+    minHeight: 120,
+    backgroundColor: '#1e293b',
+    color: '#f8fafc',
+    borderRadius: 8,
+    padding: 14,
+    textAlignVertical: 'top',
+    borderWidth: 1,
+    borderColor: '#334155'
+  },
+  note: { color: '#64748b', fontSize: 11, marginVertical: 12 },
+  button: {
+    backgroundColor: '#2563eb',
+    padding: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: 32
+  },
+  disabledButton: { opacity: 0.5 },
+  buttonText: { color: '#fff', fontWeight: '700' },
+  error: { color: '#fb7185', marginBottom: 12 }
+});

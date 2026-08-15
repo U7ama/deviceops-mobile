@@ -1,0 +1,25 @@
+appId: com.deviceops.technician
+name: DeviceOps synthetic technician smoke
+tags:
+  - local
+  - synthetic
+  - android
+
+---
+- launchApp:
+    clearState: true
+- assertVisible: "DeviceOps AI Copilot"
+- tapOn: "Email"
+- inputText: "tech@alpha.test"
+- tapOn: "Password"
+- inputText: "${DEVICEOPS_TEST_PASSWORD}"
+- tapOn: "Sign in"
+- assertVisible: "Devices"
+- assertVisible: "Main Wall Display"
+- assertVisible: "DSP Processor"
+- tapOn: "Main Wall Display"
+- assertVisible: "Ask the copilot"
+- tapOn: "Queue diagnosis"
+- assertVisible: "Durable run timeline"
+- assertVisible: "AWAITING APPROVAL"
+- assertVisible: "Citations"

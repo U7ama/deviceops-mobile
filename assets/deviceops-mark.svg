@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">DeviceOps mark</title>
+  <desc id="desc">A cyan operations display with a green healthy status indicator on a dark navy field.</desc>
+  <rect width="1024" height="1024" rx="210" fill="#081525"/>
+  <path d="M273 244h478c48 0 87 39 87 87v260c0 48-39 87-87 87H273c-48 0-87-39-87-87V331c0-48 39-87 87-87Z" fill="#0f2740" stroke="#56d7ee" stroke-width="38"/>
+  <path d="M370 768h284M512 678v90" fill="none" stroke="#56d7ee" stroke-linecap="round" stroke-width="38"/>
+  <path d="M324 389h188M324 477h116" fill="none" stroke="#9beafa" stroke-linecap="round" stroke-width="28"/>
+  <circle cx="714" cy="476" r="72" fill="#0f2740" stroke="#4ade80" stroke-width="30"/>
+  <path d="m681 476 24 24 43-52" fill="none" stroke="#4ade80" stroke-linecap="round" stroke-linejoin="round" stroke-width="25"/>
+</svg>

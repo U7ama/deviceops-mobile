@@ -18,6 +18,16 @@ The local seeded password is intentionally not embedded in this repository. Use 
 
 `npm run contracts:check` verifies the checked-in contract version and schema hash exported by the core repository. A stale companion manifest must fail CI before a mobile build is distributed.
 
+## Android smoke flow
+
+`maestro/deviceops-smoke.yaml` is a human-readable Maestro flow for the physical-device path: launch the development build, sign in with the locally seeded account, inspect both synthetic devices, queue a diagnosis, and open the durable run timeline. Run it from this repository after the core API and Metro server are reachable:
+
+```bash
+maestro test maestro/deviceops-smoke.yaml
+```
+
+Maestro is an external CLI and is not required for the TypeScript verification command. The flow is included as a reproducible test artifact; its execution must be recorded separately from the already verified manual Android run.
+
 ## Known boundary
 
-Camera, audio recording, push notification, and EAS credentials are adapters for the later device build. The current runnable path is text-first and uses synthetic telemetry; no real device control or production mobile claim is made.
+Camera, audio recording, push notification, and cloud EAS credentials are adapters. The current runnable path is text-first and uses synthetic telemetry; no real device control or production mobile claim is made. A development APK has been installed and manually exercised on a physical Android device, but no store release or cloud-backed notification claim is made.

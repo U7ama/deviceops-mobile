@@ -6,22 +6,38 @@
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
     "scheme": "deviceops",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#081525"
+    },
     "ios": {
       "supportsTablet": true
     },
     "android": {
-      "package": "com.deviceops.technician"
+      "package": "com.deviceops.technician",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#081525"
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ]
     },
     "plugins": [
       "expo-router",
       "expo-secure-store",
-      "expo-camera",
-      "expo-av"
+      "expo-camera"
     ],
     "extra": {
+      "router": {},
       "eas": {
-        "projectId": "synthetic-deviceops-mobile-id"
+        "projectId": "595c58fc-f4ce-42ea-9ac5-9964eb8938bb"
       }
-    }
+    },
+    "owner": "usamaaslam"
   }
 }
