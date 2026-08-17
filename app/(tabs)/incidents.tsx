@@ -9,6 +9,7 @@ import {
   View
 } from 'react-native';
 import { apiFetch } from '../../src/api';
+import { colors } from '../../src/theme';
 
 type Incident = {
   id: string;
@@ -71,14 +72,14 @@ export default function IncidentsScreen() {
   function getBadgeColor(state: Incident['state']) {
     switch (state) {
       case 'delivered':
-        return '#166534';
+        return colors.success;
       case 'dispatched':
-        return '#0284c7';
+        return colors.buttonSecondary;
       case 'failed':
-        return '#991b1b';
+        return colors.error;
       case 'queued':
       default:
-        return '#d97706';
+        return colors.warning;
     }
   }
 
@@ -90,7 +91,7 @@ export default function IncidentsScreen() {
       </Text>
       {feedback ? <Text style={styles.feedback}>{feedback}</Text> : null}
       {loading ? (
-        <ActivityIndicator color="#38bdf8" style={{ marginTop: 24 }} />
+        <ActivityIndicator color={colors.accent} style={{ marginTop: 24 }} />
       ) : error ? (
         <Text style={styles.error}>{error}</Text>
       ) : (
@@ -101,7 +102,7 @@ export default function IncidentsScreen() {
             <RefreshControl
               refreshing={refreshing}
               onRefresh={() => fetchIncidents(true)}
-              tintColor="#38bdf8"
+              tintColor={colors.accent}
             />
           }
           ListEmptyComponent={
@@ -129,7 +130,7 @@ export default function IncidentsScreen() {
                   disabled={retryingId === item.id}
                 >
                   {retryingId === item.id ? (
-                    <ActivityIndicator color="#fff" size="small" />
+                    <ActivityIndicator color={colors.white} size="small" />
                   ) : (
                     <Text style={styles.retryButtonText}>Retry Dispatch</Text>
                   )}
@@ -147,40 +148,40 @@ export default function IncidentsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#090d16', padding: 16 },
-  title: { color: '#f8fafc', fontSize: 22, fontWeight: '700' },
-  subtitle: { color: '#94a3b8', fontSize: 13, marginTop: 4, marginBottom: 16 },
+  container: { flex: 1, backgroundColor: colors.background, padding: 16 },
+  title: { color: colors.textPrimary, fontSize: 22, fontWeight: '700' },
+  subtitle: { color: colors.textSecondary, fontSize: 13, marginTop: 4, marginBottom: 16 },
   feedback: {
-    color: '#38bdf8',
-    backgroundColor: '#0c4a6e33',
+    color: colors.accent,
+    backgroundColor: colors.feedbackBg,
     padding: 10,
     borderRadius: 6,
     marginBottom: 12,
     fontSize: 13
   },
   card: {
-    backgroundColor: '#1e293b',
+    backgroundColor: colors.surface,
     padding: 16,
     borderRadius: 10,
     marginBottom: 12,
     borderWidth: 1,
-    borderColor: '#334155'
+    borderColor: colors.border
   },
   row: { flexDirection: 'row', justifyContent: 'space-between', gap: 8, alignItems: 'flex-start' },
-  summary: { color: '#f8fafc', fontSize: 15, fontWeight: '600', flex: 1 },
-  badge: { color: '#fff', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 5, fontSize: 11, fontWeight: '700' },
-  meta: { color: '#94a3b8', fontSize: 12, marginTop: 8 },
-  errorDetail: { color: '#fb7185', fontSize: 12, marginTop: 6, fontStyle: 'italic' },
+  summary: { color: colors.textPrimary, fontSize: 15, fontWeight: '600', flex: 1 },
+  badge: { color: colors.white, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 5, fontSize: 11, fontWeight: '700' },
+  meta: { color: colors.textSecondary, fontSize: 12, marginTop: 8 },
+  errorDetail: { color: colors.errorText, fontSize: 12, marginTop: 6, fontStyle: 'italic' },
   retryButton: {
-    backgroundColor: '#3b82f6',
+    backgroundColor: colors.buttonPrimary,
     paddingVertical: 8,
     paddingHorizontal: 14,
     borderRadius: 6,
     alignSelf: 'flex-start',
     marginTop: 10
   },
-  retryButtonText: { color: '#fff', fontSize: 12, fontWeight: '700' },
-  error: { color: '#fb7185', marginTop: 16 },
-  empty: { color: '#94a3b8', marginTop: 24, textAlign: 'center' },
-  note: { color: '#64748b', fontSize: 11, marginTop: 16, textAlign: 'center' }
+  retryButtonText: { color: colors.white, fontSize: 12, fontWeight: '700' },
+  error: { color: colors.errorText, marginTop: 16 },
+  empty: { color: colors.textSecondary, marginTop: 24, textAlign: 'center' },
+  note: { color: colors.muted, fontSize: 11, marginTop: 16, textAlign: 'center' }
 });

@@ -9,6 +9,7 @@ import {
   View
 } from 'react-native';
 import { apiFetch, loadOfflineCache, saveOfflineCache, type OfflineCache } from '../../src/api';
+import { colors } from '../../src/theme';
 
 export default function OfflineScreen() {
   const [cache, setCache] = useState<OfflineCache | null>(null);
@@ -66,7 +67,7 @@ export default function OfflineScreen() {
           disabled={syncing}
         >
           {syncing ? (
-            <ActivityIndicator color="#fff" size="small" />
+            <ActivityIndicator color={colors.white} size="small" />
           ) : (
             <Text style={styles.syncButtonText}>Sync Now</Text>
           )}
@@ -76,7 +77,7 @@ export default function OfflineScreen() {
       {message ? <Text style={styles.feedback}>{message}</Text> : null}
 
       {loading ? (
-        <ActivityIndicator color="#38bdf8" style={{ marginTop: 24 }} />
+        <ActivityIndicator color={colors.accent} style={{ marginTop: 24 }} />
       ) : (
         <FlatList
           data={cache?.devices ?? []}
@@ -85,7 +86,7 @@ export default function OfflineScreen() {
             <RefreshControl
               refreshing={syncing}
               onRefresh={handleSync}
-              tintColor="#38bdf8"
+              tintColor={colors.accent}
             />
           }
           ListEmptyComponent={
@@ -105,7 +106,7 @@ export default function OfflineScreen() {
                 <Text
                   style={[
                     styles.badge,
-                    { backgroundColor: item.online ? '#166534' : '#991b1b' }
+                    { backgroundColor: item.online ? colors.success : colors.error }
                   ]}
                 >
                   {item.online ? 'ONLINE' : 'OFFLINE'}
@@ -128,40 +129,40 @@ export default function OfflineScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#090d16', padding: 16 },
+  container: { flex: 1, backgroundColor: colors.background, padding: 16 },
   headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 },
-  title: { color: '#f8fafc', fontSize: 22, fontWeight: '700' },
-  subtitle: { color: '#94a3b8', fontSize: 13, marginTop: 2 },
+  title: { color: colors.textPrimary, fontSize: 22, fontWeight: '700' },
+  subtitle: { color: colors.textSecondary, fontSize: 13, marginTop: 2 },
   syncButton: {
-    backgroundColor: '#0284c7',
+    backgroundColor: colors.buttonSecondary,
     paddingVertical: 8,
     paddingHorizontal: 14,
     borderRadius: 6
   },
-  syncButtonText: { color: '#fff', fontSize: 13, fontWeight: '700' },
+  syncButtonText: { color: colors.white, fontSize: 13, fontWeight: '700' },
   feedback: {
-    color: '#38bdf8',
-    backgroundColor: '#0c4a6e33',
+    color: colors.accent,
+    backgroundColor: colors.feedbackBg,
     padding: 10,
     borderRadius: 6,
     marginBottom: 12,
     fontSize: 13
   },
   card: {
-    backgroundColor: '#1e293b',
+    backgroundColor: colors.surface,
     padding: 14,
     borderRadius: 10,
     marginBottom: 10,
     borderWidth: 1,
-    borderColor: '#334155'
+    borderColor: colors.border
   },
   row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  name: { color: '#f8fafc', fontSize: 15, fontWeight: '700', flex: 1 },
-  badge: { color: '#fff', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 5, fontSize: 11, fontWeight: '700' },
-  room: { color: '#94a3b8', marginTop: 4, fontSize: 13 },
-  detail: { color: '#cbd5e1', fontSize: 12, marginTop: 8 },
+  name: { color: colors.textPrimary, fontSize: 15, fontWeight: '700', flex: 1 },
+  badge: { color: colors.white, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 5, fontSize: 11, fontWeight: '700' },
+  room: { color: colors.textSecondary, marginTop: 4, fontSize: 13 },
+  detail: { color: colors.textMuted, fontSize: 12, marginTop: 8 },
   emptyContainer: { padding: 24, alignItems: 'center' },
-  emptyText: { color: '#cbd5e1', fontSize: 15, fontWeight: '600', textAlign: 'center' },
-  emptySubtext: { color: '#64748b', fontSize: 13, textAlign: 'center', marginTop: 8 },
-  note: { color: '#64748b', fontSize: 11, marginTop: 12, textAlign: 'center' }
+  emptyText: { color: colors.textMuted, fontSize: 15, fontWeight: '600', textAlign: 'center' },
+  emptySubtext: { color: colors.muted, fontSize: 13, textAlign: 'center', marginTop: 8 },
+  note: { color: colors.muted, fontSize: 11, marginTop: 12, textAlign: 'center' }
 });

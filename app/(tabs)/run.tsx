@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { apiFetch } from '../../src/api';
+import { colors } from '../../src/theme';
 
 type DeviceOption = {
   id: string;
@@ -105,7 +106,7 @@ export default function NewRunScreen() {
       </Text>
 
       {loadingDevices ? (
-        <ActivityIndicator color="#38bdf8" style={{ marginVertical: 12 }} />
+        <ActivityIndicator color={colors.accent} style={{ marginVertical: 12 }} />
       ) : devices.length > 0 ? (
         <View style={styles.deviceChips}>
           {devices.map((d) => {
@@ -132,7 +133,7 @@ export default function NewRunScreen() {
         value={question}
         onChangeText={setQuestion}
         placeholder="Describe the symptom or issue"
-        placeholderTextColor="#64748b"
+        placeholderTextColor={colors.muted}
       />
 
       <Text style={styles.note}>
@@ -147,7 +148,7 @@ export default function NewRunScreen() {
         disabled={busy || !selectedRoomId || !selectedDeviceId}
       >
         {busy ? (
-          <ActivityIndicator color="#fff" />
+          <ActivityIndicator color={colors.white} />
         ) : (
           <Text style={styles.buttonText}>Queue diagnosis</Text>
         )}
@@ -157,44 +158,44 @@ export default function NewRunScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#090d16', padding: 16 },
-  title: { color: '#f8fafc', fontSize: 24, fontWeight: '700' },
-  context: { color: '#94a3b8', marginVertical: 10, fontSize: 13 },
+  container: { flex: 1, backgroundColor: colors.background, padding: 16 },
+  title: { color: colors.textPrimary, fontSize: 24, fontWeight: '700' },
+  context: { color: colors.textSecondary, marginVertical: 10, fontSize: 13 },
   deviceChips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 14 },
   chip: {
-    backgroundColor: '#1e293b',
+    backgroundColor: colors.surface,
     paddingVertical: 6,
     paddingHorizontal: 10,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: '#334155'
+    borderColor: colors.border
   },
   chipActive: {
-    backgroundColor: '#0369a1',
-    borderColor: '#38bdf8'
+    backgroundColor: colors.chipActive,
+    borderColor: colors.accent
   },
-  chipText: { color: '#94a3b8', fontSize: 12 },
-  chipTextActive: { color: '#f8fafc', fontWeight: '700' },
-  label: { color: '#cbd5e1', fontSize: 13, fontWeight: '600', marginBottom: 6, marginTop: 4 },
+  chipText: { color: colors.textSecondary, fontSize: 12 },
+  chipTextActive: { color: colors.textPrimary, fontWeight: '700' },
+  label: { color: colors.textMuted, fontSize: 13, fontWeight: '600', marginBottom: 6, marginTop: 4 },
   textArea: {
     minHeight: 120,
-    backgroundColor: '#1e293b',
-    color: '#f8fafc',
+    backgroundColor: colors.surface,
+    color: colors.textPrimary,
     borderRadius: 8,
     padding: 14,
     textAlignVertical: 'top',
     borderWidth: 1,
-    borderColor: '#334155'
+    borderColor: colors.border
   },
-  note: { color: '#64748b', fontSize: 11, marginVertical: 12 },
+  note: { color: colors.muted, fontSize: 11, marginVertical: 12 },
   button: {
-    backgroundColor: '#2563eb',
+    backgroundColor: colors.buttonPrimary,
     padding: 16,
     borderRadius: 8,
     alignItems: 'center',
     marginBottom: 32
   },
   disabledButton: { opacity: 0.5 },
-  buttonText: { color: '#fff', fontWeight: '700' },
-  error: { color: '#fb7185', marginBottom: 12 }
+  buttonText: { color: colors.white, fontWeight: '700' },
+  error: { color: colors.errorText, marginBottom: 12 }
 });

@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { apiFetch, saveOfflineCache } from '../../src/api';
+import { colors } from '../../src/theme';
 
 type Device = {
   id: string;
@@ -88,10 +89,10 @@ export default function DevicesScreen() {
         value={search}
         onChangeText={handleSearch}
         placeholder="Filter by device, model, or room…"
-        placeholderTextColor="#64748b"
+        placeholderTextColor={colors.muted}
       />
       {loading ? (
-        <ActivityIndicator color="#38bdf8" style={{ marginTop: 24 }} />
+        <ActivityIndicator color={colors.accent} style={{ marginTop: 24 }} />
       ) : error ? (
         <Text style={styles.error}>{error}</Text>
       ) : (
@@ -102,7 +103,7 @@ export default function DevicesScreen() {
             <RefreshControl
               refreshing={refreshing}
               onRefresh={() => fetchDevices(true)}
-              tintColor="#38bdf8"
+              tintColor={colors.accent}
             />
           }
           ListEmptyComponent={
@@ -125,7 +126,7 @@ export default function DevicesScreen() {
                   <Text
                     style={[
                       styles.badge,
-                      { backgroundColor: online ? '#166534' : '#991b1b' }
+                      { backgroundColor: online ? colors.success : colors.error }
                     ]}
                   >
                     {online ? 'ONLINE' : 'OFFLINE'}
@@ -146,30 +147,30 @@ export default function DevicesScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#090d16', padding: 16 },
-  header: { fontSize: 18, fontWeight: '700', color: '#f8fafc', marginBottom: 12 },
+  container: { flex: 1, backgroundColor: colors.background, padding: 16 },
+  header: { fontSize: 18, fontWeight: '700', color: colors.textPrimary, marginBottom: 12 },
   searchBar: {
-    backgroundColor: '#1e293b',
-    color: '#f8fafc',
+    backgroundColor: colors.surface,
+    color: colors.textPrimary,
     borderRadius: 8,
     padding: 12,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: '#334155'
+    borderColor: colors.border
   },
   card: {
-    backgroundColor: '#1e293b',
+    backgroundColor: colors.surface,
     padding: 16,
     borderRadius: 10,
     marginBottom: 12,
     borderWidth: 1,
-    borderColor: '#334155'
+    borderColor: colors.border
   },
   row: { flexDirection: 'row', justifyContent: 'space-between', gap: 8, alignItems: 'center' },
-  name: { color: '#f8fafc', fontSize: 16, fontWeight: '700', flex: 1 },
-  badge: { color: '#fff', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 5, fontSize: 11, fontWeight: '700' },
-  room: { color: '#94a3b8', marginTop: 5 },
-  detail: { color: '#cbd5e1', fontSize: 12, marginTop: 10 },
-  error: { color: '#fb7185', marginTop: 16 },
-  empty: { color: '#94a3b8', marginTop: 16, textAlign: 'center' }
+  name: { color: colors.textPrimary, fontSize: 16, fontWeight: '700', flex: 1 },
+  badge: { color: colors.white, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 5, fontSize: 11, fontWeight: '700' },
+  room: { color: colors.textSecondary, marginTop: 5 },
+  detail: { color: colors.textMuted, fontSize: 12, marginTop: 10 },
+  error: { color: colors.errorText, marginTop: 16 },
+  empty: { color: colors.textSecondary, marginTop: 16, textAlign: 'center' }
 });
