@@ -18,6 +18,16 @@ The local seeded password is intentionally not embedded in this repository. Use 
 
 `npm run contracts:check` verifies the checked-in contract version and schema hash exported by the core repository. A stale companion manifest must fail CI before a mobile build is distributed.
 
+## Mobile Application Tour
+
+| Technician Login | Monitored Devices | Camera Diagnosis |
+| :---: | :---: | :---: |
+| ![Login](docs/screenshots/01-mobile-login.jpg) | ![Devices](docs/screenshots/02-mobile-devices-list.jpg) | ![Camera Diagnosis](docs/screenshots/03-mobile-diagnosis-camera.jpg) |
+
+| Live Run Timeline & Citations | Incident Notifications | Offline Status Cache |
+| :---: | :---: | :---: |
+| ![Run Timeline](docs/screenshots/04-mobile-run-timeline.jpg) | ![Incidents](docs/screenshots/05-mobile-incidents.jpg) | ![Offline Cache](docs/screenshots/06-mobile-offline-cache.jpg) |
+
 ## Android smoke flow
 
 `maestro/deviceops-smoke.yaml` is a human-readable Maestro flow for the physical-device path: launch the development build, sign in with the locally seeded account, inspect both synthetic devices, queue a diagnosis, and open the durable run timeline. Run it from this repository after the core API and Metro server are reachable:

@@ -1,6 +1,6 @@
 import * as SecureStore from 'expo-secure-store';
 
-const API_URL = (process.env.EXPO_PUBLIC_DEVICEOPS_API_URL ?? 'http://10.0.2.2:3000').replace(/\/$/, '');
+const API_URL = (process.env.EXPO_PUBLIC_DEVICEOPS_API_URL ?? 'http://localhost:3000').replace(/\/$/, '');
 const ACCESS_KEY = 'deviceops_access_token';
 const REFRESH_KEY = 'deviceops_refresh_token';
 
