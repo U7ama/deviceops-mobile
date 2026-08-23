@@ -5,6 +5,12 @@ Expo SDK 56 / TypeScript companion client for the DeviceOps synthetic reference 
 > Source available for portfolio review; all rights reserved; no permission to reuse or redistribute.
 
 The app uses the core API for mobile login, tenant-scoped device status, diagnosis creation, and reconnectable run polling. Access and refresh tokens are stored in Expo SecureStore. The server remains authoritative: the client never executes consequential actions offline, accepts model-supplied tenant IDs, or stores raw media in its offline cache.
+ 
+## Connected Repositories
+
+- 🖥️ **Core Monorepo**: [github.com/U7ama/deviceops-ai-copilot](https://github.com/U7ama/deviceops-ai-copilot) — Core Next.js 16 platform, pgvector RAG, pg-boss worker, and MCP adapter.
+- 📱 **Mobile Companion App (`deviceops-mobile`)**: Current repository (Expo SDK 56 technician client with offline cache).
+- ⚡ **Automations Adapter**: [github.com/U7ama/deviceops-automations](https://github.com/U7ama/deviceops-automations) — Version-controlled n8n incident workflows.
 
 ## Local run
 
