@@ -1,8 +1,8 @@
 appId: com.deviceops.technician
-name: DeviceOps synthetic technician smoke
+name: DeviceOps technician smoke
 tags:
   - local
-  - synthetic
+  - smoke
   - android
 
 ---

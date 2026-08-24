@@ -82,10 +82,9 @@ export default function NewRunScreen() {
         }
       }
     } catch {
-      // Fallback if native module is absent in existing build
+      // Camera module not available in current build
     }
-    setImageUri('https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=600');
-    Alert.alert('Hardware Photo Attached', 'Device front-panel photo attached to diagnostic run.');
+    Alert.alert('Camera Unavailable', 'Rebuild required');
   }
 
   function handleVoice() {
