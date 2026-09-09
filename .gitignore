@@ -4,6 +4,8 @@ node_modules/
 dist/
 coverage/
 *.log
+build/
+*.apk
 .env
 .env.*
 !.env.example
