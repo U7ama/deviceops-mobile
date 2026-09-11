@@ -8,7 +8,7 @@ tags:
 ---
 - launchApp:
     clearState: true
-- assertVisible: "DeviceOps AI Copilot"
+- assertVisible: "DeviceOps"
 - tapOn: "Email"
 - inputText: "tech@alpha.test"
 - tapOn: "Password"
@@ -18,7 +18,7 @@ tags:
 - assertVisible: "Main Wall Display"
 - assertVisible: "DSP Processor"
 - tapOn: "Main Wall Display"
-- assertVisible: "Ask the copilot"
+- assertVisible: "Agent Diagnostics"
 - tapOn: "Queue diagnosis"
 - assertVisible: "Durable run timeline"
 - assertVisible: "AWAITING APPROVAL"

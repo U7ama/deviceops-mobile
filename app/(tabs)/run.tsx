@@ -65,30 +65,12 @@ export default function NewRunScreen() {
     setSelectedRoomId(device.roomId);
   }
 
-  async function handleCamera() {
-    try {
-      let picker: any = null;
-      try {
-        picker = require('expo-image-picker');
-      } catch {
-        picker = null;
-      }
-      if (picker?.launchCameraAsync) {
-        const res = await picker.launchCameraAsync({ quality: 0.7 });
-        if (!res.canceled && res.assets?.[0]?.uri) {
-          setImageUri(res.assets[0].uri);
-          Alert.alert('Photo Captured', 'Device telemetry photo attached successfully.');
-          return;
-        }
-      }
-    } catch {
-      // Camera module not available in current build
-    }
-    Alert.alert('Camera Unavailable', 'Rebuild required');
+  function handleCamera() {
+    router.push('/(tabs)/evidence');
   }
 
   function handleVoice() {
-    Alert.alert('Voice Telemetry', 'Audio stream attached to diagnostic run context.');
+    Alert.alert('Voice capture unavailable', 'No audio was attached. Use the operations web app for approved waveform CSV analysis.');
   }
 
   async function submit() {
@@ -127,7 +109,7 @@ export default function NewRunScreen() {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>Ask the copilot</Text>
+      <Text style={styles.title}>Agent Diagnostics</Text>
       <Text style={styles.context}>
         {selectedDevice
           ? `Target: ${selectedDevice.name} (${selectedDevice.model}) in ${selectedDevice.room.name}`
