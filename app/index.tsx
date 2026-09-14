@@ -24,8 +24,8 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>DeviceOps AI Copilot</Text>
-      <Text style={styles.subtitle}>Enterprise Operations Workspace</Text>
+      <Text style={styles.title}>DeviceOps</Text>
+      <Text style={styles.subtitle}>Autonomous Operations & Incident Resolution</Text>
       {error ? <Text style={styles.error}>{error}</Text> : null}
       <TextInput
         style={styles.input}

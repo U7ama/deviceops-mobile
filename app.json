@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "DeviceOps Technician",
+    "name": "DeviceOps Tech",
     "slug": "deviceops-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -17,6 +17,7 @@
     },
     "android": {
       "package": "com.deviceops.technician",
+      "usesCleartextTraffic": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#081525"
@@ -28,9 +29,18 @@
       ]
     },
     "plugins": [
+      "./plugins/withCleartextTraffic",
       "expo-router",
       "expo-secure-store",
-      "expo-camera"
+      "expo-camera",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow DeviceOps to attach selected rack photos to an incident.",
+          "cameraPermission": "Allow DeviceOps to take rack photos for incident evidence.",
+          "microphonePermission": false
+        }
+      ]
     ],
     "extra": {
       "router": {},

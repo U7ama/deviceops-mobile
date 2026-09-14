@@ -4,6 +4,19 @@ node_modules/
 dist/
 coverage/
 *.log
+build/
+*.apk
 .env
 .env.*
 !.env.example
+*.tsbuildinfo
+*Zone.Identifier
+.DS_Store
+Thumbs.db
+
+# Local APK verification helper cache
+__pycache__/
+*.pyc
+
+# Local IDE agent metadata
+.agents/

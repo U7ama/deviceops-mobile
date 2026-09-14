@@ -35,6 +35,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ color }) => <Text style={{ color, fontSize: 16 }}>🚨</Text>
         }}
       />
+      <Tabs.Screen name="evidence" options={{title:"Evidence",tabBarIcon:({color})=><Text style={{color,fontSize:16}}>📷</Text>}} />
       <Tabs.Screen
         name="offline"
         options={{

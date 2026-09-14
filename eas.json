@@ -9,7 +9,13 @@
       "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_DEVICEOPS_API_URL": "http://127.0.0.1:3030"
+      }
     },
     "production": {
       "autoIncrement": true

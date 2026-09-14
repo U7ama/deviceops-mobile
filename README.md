@@ -1,8 +1,8 @@
-# DeviceOps Technician Mobile
+# DeviceOps Mobile Companion
 
-Expo SDK 56 / TypeScript companion client for the DeviceOps AI Copilot platform.
+Expo SDK 56 / TypeScript companion client for the DeviceOps autonomous operations & incident resolution platform.
 
-> Source available for portfolio review; all rights reserved; no permission to reuse or redistribute.
+> Open-source companion to the DeviceOps hackathon project, licensed under the [MIT License](LICENSE). Use, modification, and redistribution are permitted under its terms. Third-party dependencies retain their own licenses.
 
 The app uses the core API for mobile login, tenant-scoped device status, diagnosis creation, and reconnectable run polling. Access and refresh tokens are stored in Expo SecureStore. The server remains authoritative: the client never executes consequential actions offline, accepts model-supplied tenant IDs, or stores raw media in its offline cache.
  
@@ -17,6 +17,7 @@ The app uses the core API for mobile login, tenant-scoped device status, diagnos
 1. Start the core web/API and worker from `deviceops-ai-copilot`.
 2. Set `EXPO_PUBLIC_DEVICEOPS_API_URL` to a reachable machine URL. Android emulators use `http://10.0.2.2:3000`; a physical device needs the host's LAN address and a reachable firewall rule.
 3. Install the pinned Expo SDK 56 dependencies and run `npm start`.
+4. For fast testing without EAS cloud queues (local builds, dev client, hot reload), see the [Build & Fast Testing Guide](docs/BUILD_AND_TEST_GUIDE.md).
 
 The local seeded password is intentionally not embedded in this repository. Use the password printed by the core seed command.
 
@@ -46,5 +47,5 @@ Maestro is an external CLI and is not required for the TypeScript verification c
 
 ## Known boundary
 
-Camera, audio recording, push notification, and cloud EAS credentials are adapters. The current runnable path is text-first with edge telemetry. A development APK has been installed and manually exercised on a physical Android device.
+Camera, audio recording, push notification, and cloud EAS credentials are adapters. The current runnable path is text-first with edge telemetry. The signed preview APK with cleartext networking has been installed and verified on a physical Android handset, including live camera capture, on-device SHA-256 integrity hashing, containerized ClamAV scanning, and technician device association confirmation.
 
