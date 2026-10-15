@@ -2,7 +2,7 @@
   "name": "deviceops-mobile",
   "version": "1.0.0",
   "private": true,
-  "license": "MIT",
+  "license": "UNLICENSED",
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
