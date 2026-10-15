@@ -179,7 +179,7 @@ adb reverse tcp:3030 tcp:3030
 
 The first port is the phone port; the second is the computer port. Use `-s <DEVICE_ID>` if multiple devices are attached. Windows must be able to reach the WSL backend on localhost:3030.
 
-Start the backend with `compose.hackathon.yaml`, `compose.enterprise.yaml`, and `compose.media-scan.yaml`. Real phone photos require the healthy ClamAV service; a fixture hash allowlist cannot approve arbitrary camera images. Log in as a technician, choose an incident, capture/select a photo, wait for ready/clean status, and confirm the matching device. Verify permission denial, cancellation, and successful upload on the physical phone before recording.
+Start the backend with `compose.demo.yaml`, `compose.enterprise.yaml`, and `compose.media-scan.yaml`. Real phone photos require the healthy ClamAV service; a fixture hash allowlist cannot approve arbitrary camera images. Log in as a technician, choose an incident, capture/select a photo, wait for ready/clean status, and confirm the matching device. Verify permission denial, cancellation, and successful upload on the physical phone before recording.
 
 The acoustic feature currently accepts sampled waveform CSV data through the web sandbox. It does not record phone audio or diagnose bearing faults.
 
